@@ -133,6 +133,31 @@
         let eventStartDate = null;
         let areaCode = null;
 
+        document.addEventListener('DOMContentLoaded', function () {
+            // 드롭다운 항목들을 선택합니다.
+            const dropdownItems = $('.dropdown-item');
+
+            // 각 드롭다운 항목에 대해 클릭 이벤트를 추가합니다.
+            dropdownItems.each(function() {
+                $(this).click(function () {
+                    // data-dropdown 속성 값에 따라 관련된 버튼을 선택합니다.
+                    const dropdownType = $(this).attr('data-dropdown');
+                    const dropdownButton = $(`#dropdown-${dropdownType}`);
+
+                    // 선택된 항목의 텍스트를 버튼에 설정합니다.
+                    dropdownButton.text($(this).text());
+
+                    // 변수에 선택된 항목의 값 설정하기
+                    if(dropdownType === 'month') {
+                        eventStartDate = $(this).attr('data-value1');
+                    }
+                    if(dropdownType === 'area') {
+                        areaCode = $(this).attr('data-value2');
+                    }
+                });
+            });
+        });
+
         async function searchFestival() {
             // 1. 값 가져오기 -> 드롭다운 선택 항목이 바뀔 때마다 값이 바뀌기 때문에 전역변수로 빼고, 드롭다운 항목 선택될 때 값 설정되도록 함.
             console.log(eventStartDate);
@@ -144,23 +169,12 @@
             }
 
             // 2. fetch 로 통신하기
-            // 축제 조회 (월별 + 지역)
-            let response = await fetch(`https://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=kHfRvlblfY0%2FqktqEjjp72ndE1A%2BDbLjFv6u3ELfNbj4h23qBTf%2FZUp415fmG85GBeoJQGeE0H6xM2OfWVHpCg%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&arrange=A&listYN=Y&eventStartDate=${eventStartDate}&areaCode=${areaCode}&_type=json`);
-            let data = await response.json();
-            // console.log(data);
-            let boardList = data.response.body.items.item;
-
-            for (board of boardList) {
-                let dom = makeBox(board);
-                $("#bottom__box").append(dom);
-            }
-
             // 축제 조회 (월별)
             if (areaCode === null) {
                 // await fetch(`/festival/main?eventStartDate=${eventStartDate}`);
-                let response = await fetch(`http://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=kHfRvlblfY0%2FqktqEjjp72ndE1A%2BDbLjFv6u3ELfNbj4h23qBTf%2FZUp415fmG85GBeoJQGeE0H6xM2OfWVHpCg%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&arrange=A&listYN=Y&eventStartDate=${eventStartDate}&_type=json`);
+                let response = await fetch(`http://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=kHfRvlblfY0%2FqktqEjjp72ndE1A%2BDbLjFv6u3ELfNbj4h23qBTf%2FZUp415fmG85GBeoJQGeE0H6xM2OfWVHpCg%3D%3D&numOfRows=50000&pageNo=1&MobileOS=ETC&MobileApp=AppTest&arrange=A&listYN=Y&eventStartDate=${eventStartDate}&_type=json`);
                 let data = await response.json();
-                // console.log(data);
+                console.log(data);
                 let boardList = data.response.body.items.item;
 
                 for (board of boardList) {
@@ -168,9 +182,10 @@
                     $("#bottom__box").append(dom);
                 }
             }
+
             // 축제 조회 (지역)
             if (eventStartDate === null) {
-              let response = await fetch(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=kHfRvlblfY0%2FqktqEjjp72ndE1A%2BDbLjFv6u3ELfNbj4h23qBTf%2FZUp415fmG85GBeoJQGeE0H6xM2OfWVHpCg%3D%3D&pageNo=1&numOfRows=10&MobileApp=AppTest&MobileOS=ETC&arrange=A&contentTypeId=15&areaCode=${areaCode}&_type=json`);
+              let response = await fetch(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=kHfRvlblfY0%2FqktqEjjp72ndE1A%2BDbLjFv6u3ELfNbj4h23qBTf%2FZUp415fmG85GBeoJQGeE0H6xM2OfWVHpCg%3D%3D&pageNo=1&numOfRows=50000&MobileApp=AppTest&MobileOS=ETC&arrange=A&contentTypeId=15&areaCode=${areaCode}&_type=json`);
               let data = await response.json();
               // console.log(data);
               let boardList = data.response.body.items.item;
@@ -180,11 +195,25 @@
                  $("#bottom__box").append(dom);
               }
             }
+
+            // 축제 조회 (월별 + 지역)
+            if (areaCode !== null && eventStartDate !== null) {
+                let response = await fetch(`https://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=kHfRvlblfY0%2FqktqEjjp72ndE1A%2BDbLjFv6u3ELfNbj4h23qBTf%2FZUp415fmG85GBeoJQGeE0H6xM2OfWVHpCg%3D%3D&numOfRows=50000&pageNo=1&MobileOS=ETC&MobileApp=AppTest&arrange=A&listYN=Y&eventStartDate=${eventStartDate}&areaCode=${areaCode}&_type=json`);
+                let data = await response.json();
+                // console.log(data);
+                let boardList = data.response.body.items.item;
+
+                for (board of boardList) {
+                    let dom = makeBox(board);
+                    $("#bottom__box").append(dom);
+                }
+            }
         }
 
         function makeBox(board) {
-
-            let area = $(`a[data-value2="${board.areacode}"]`).text();
+            // 주소 뽑아내기
+            let parts = board.addr1.split(" ");
+            let result = parts.slice(0, 2).join(" ");
 
             return `<div class="bottom" id="board-${board.contentid}">
                     <div class="bottom__img">
@@ -193,34 +222,11 @@
                     <div class="bottom__info">
                         <div class="bottom__info1">${board.title}</div>
                         <div class="bottom__info2">${board.eventstartdate} - ${board.eventenddate}</div>
-                        <div class="bottom__info3">${area} ${board.sigungucode}</div>
+                        <div class="bottom__info3">${result}</div>
                     </div>
                 </div>`;
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            // 드롭다운 항목들을 선택합니다.
-            const dropdownItems = document.querySelectorAll('.dropdown-item');
 
-            // 각 드롭다운 항목에 대해 클릭 이벤트를 추가합니다.
-            dropdownItems.forEach(item => {
-                item.addEventListener('click', function () {
-                    // data-dropdown 속성 값에 따라 관련된 버튼을 선택합니다.
-                    const dropdownType = this.getAttribute('data-dropdown');
-                    const dropdownButton = document.getElementById(`dropdown-${dropdownType}`);
-
-                    // 선택된 항목의 텍스트를 버튼에 설정합니다.
-                    dropdownButton.textContent = this.textContent;
-
-                    // 변수에 선택된 항목의 값 설정하기
-                    if(dropdownType === 'month') {
-                        eventStartDate = this.getAttribute('data-value1');
-                    }
-                    if(dropdownType === 'area') {
-                        areaCode = this.getAttribute('data-value2');
-                    }
-                });
-            });
-        });
     </script>
 {{>layout/footer}}
