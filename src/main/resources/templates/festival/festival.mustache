@@ -45,9 +45,9 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#" data-dropdown="area">전국</a></li>
-                            <li><a class="dropdown-item" href="#" data-dropdown="area" data-value2="1" id="서울">서울</a></li>
-                            <li><a class="dropdown-item" href="#" data-dropdown="area" data-value2="2" id="인천">인천</a></li>
-                            <li><a class="dropdown-item" href="#" data-dropdown="area" data-value2="3" id="대전">대전</a></li>
+                            <li><a class="dropdown-item" href="#" data-dropdown="area" data-value2="1">서울</a></li>
+                            <li><a class="dropdown-item" href="#" data-dropdown="area" data-value2="2">인천</a></li>
+                            <li><a class="dropdown-item" href="#" data-dropdown="area" data-value2="3">대전</a></li>
                             <li><a class="dropdown-item" href="#" data-dropdown="area" data-value2="4">대구</a></li>
                             <li><a class="dropdown-item" href="#" data-dropdown="area" data-value2="5">광주</a></li>
                             <li><a class="dropdown-item" href="#" data-dropdown="area" data-value2="6">부산</a></li>
@@ -130,8 +130,8 @@
 
     <script>
 
-        let eventStartDate = null;
-        let areaCode = null;
+        let eventStartDate;
+        let areaCode;
 
         document.addEventListener('DOMContentLoaded', function () {
             // 드롭다운 항목들을 선택합니다.
@@ -163,18 +163,23 @@
             console.log(eventStartDate);
             console.log(areaCode);
 
-            if (eventStartDate === null && areaCode === null) {
+            if (eventStartDate === undefined && areaCode === undefined) {
                 alert("축제 시기나 축제 지역 중 하나는 필수 선택입니다.");
                 return; // 알림 후 함수 실행 중지
             }
 
             // 2. fetch 로 통신하기
             // 축제 조회 (월별)
-            if (areaCode === null) {
+            if (areaCode === undefined) {
                 // await fetch(`/festival/main?eventStartDate=${eventStartDate}`);
-                let response = await fetch(`http://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=kHfRvlblfY0%2FqktqEjjp72ndE1A%2BDbLjFv6u3ELfNbj4h23qBTf%2FZUp415fmG85GBeoJQGeE0H6xM2OfWVHpCg%3D%3D&numOfRows=50000&pageNo=1&MobileOS=ETC&MobileApp=AppTest&arrange=A&listYN=Y&eventStartDate=${eventStartDate}&_type=json`);
+
+                $("#bottom__box").empty();
+
+                let response = await fetch(`http://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=kHfRvlblfY0%2FqktqEjjp72ndE1A%2BDbLjFv6u3ELfNbj4h23qBTf%2FZUp415fmG85GBeoJQGeE0H6xM2OfWVHpCg%3D%3D&numOfRows=50000&pageNo=1&MobileOS=ETC&MobileApp=AppTest&arrange=A&listYN=Y&eventStartDate=${eventStartDate}&_type=json`, {
+                    method : 'GET',
+                    credentials: 'omit' // 쿠키를 요청에 포함하지 않음
+                });
                 let data = await response.json();
-                console.log(data);
                 let boardList = data.response.body.items.item;
 
                 for (board of boardList) {
@@ -184,23 +189,61 @@
             }
 
             // 축제 조회 (지역)
-            if (eventStartDate === null) {
-              let response = await fetch(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=kHfRvlblfY0%2FqktqEjjp72ndE1A%2BDbLjFv6u3ELfNbj4h23qBTf%2FZUp415fmG85GBeoJQGeE0H6xM2OfWVHpCg%3D%3D&pageNo=1&numOfRows=50000&MobileApp=AppTest&MobileOS=ETC&arrange=A&contentTypeId=15&areaCode=${areaCode}&_type=json`);
-              let data = await response.json();
-              // console.log(data);
-              let boardList = data.response.body.items.item;
+            if (eventStartDate === undefined) {
 
-              for (board of boardList) {
-                 let dom = makeBox(board);
-                 $("#bottom__box").append(dom);
-              }
+                let startDates = [];
+                let endDates = [];
+
+                $("#bottom__box").empty();
+
+                let [response1, response2] = await Promise.all([
+                    fetch(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=kHfRvlblfY0%2FqktqEjjp72ndE1A%2BDbLjFv6u3ELfNbj4h23qBTf%2FZUp415fmG85GBeoJQGeE0H6xM2OfWVHpCg%3D%3D&pageNo=1&numOfRows=50000&MobileApp=AppTest&MobileOS=ETC&arrange=A&contentTypeId=15&areaCode=${areaCode}&_type=json`),
+                    fetch(`https://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=kHfRvlblfY0%2FqktqEjjp72ndE1A%2BDbLjFv6u3ELfNbj4h23qBTf%2FZUp415fmG85GBeoJQGeE0H6xM2OfWVHpCg%3D%3D&numOfRows=50000&pageNo=1&MobileOS=ETC&MobileApp=AppTest&arrange=A&listYN=Y&eventStartDate=20220101&areaCode=${areaCode}&_type=json`)
+                ])
+
+                let data1 = await response1.json(); // 기존 요청 (지역만 선택 + contentTypeId = 15 / 축제)
+                let data2 = await response2.json(); // 추가 요청 (eventstartdate-eventendDate 데이터 가져오기 위함)
+
+                let boardList = data1.response.body.items.item;
+                let eventBoardList = data2.response.body.items.item;
+
+                for (eventBoard of eventBoardList) {
+                    let startDate = eventBoard.eventstartdate;
+                    let endDate = eventBoard.eventenddate;
+                    // console.log(startDate);
+                    // console.log(endDate);
+                    startDates.push(startDate);
+                    endDates.push(endDate);
+                }
+
+                if (startDates.length !== boardList.length) {
+                    console.log("삐빅 길이 다름")
+                } else {
+                    // for (board of boardList) {
+                    //     let dom = makeBox(board, startDate, endDate);
+                    //     $("#bottom__box").append(dom);
+                    // }
+                    for (let i = 0; i < boardList.length; i++) {
+                        let board = boardList[i];
+                        let startDate = startDates[i];
+                        let endDate = endDates[i];
+                        let dom = makeBox(board, startDate, endDate);
+                        $("#bottom__box").append(dom);
+                    }
+                }
+
             }
 
             // 축제 조회 (월별 + 지역)
-            if (areaCode !== null && eventStartDate !== null) {
-                let response = await fetch(`https://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=kHfRvlblfY0%2FqktqEjjp72ndE1A%2BDbLjFv6u3ELfNbj4h23qBTf%2FZUp415fmG85GBeoJQGeE0H6xM2OfWVHpCg%3D%3D&numOfRows=50000&pageNo=1&MobileOS=ETC&MobileApp=AppTest&arrange=A&listYN=Y&eventStartDate=${eventStartDate}&areaCode=${areaCode}&_type=json`);
+            if (areaCode !== undefined && eventStartDate !== undefined) {
+
+                $("#bottom__box").empty();
+
+                let response = await fetch(`https://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=kHfRvlblfY0%2FqktqEjjp72ndE1A%2BDbLjFv6u3ELfNbj4h23qBTf%2FZUp415fmG85GBeoJQGeE0H6xM2OfWVHpCg%3D%3D&numOfRows=50000&pageNo=1&MobileOS=ETC&MobileApp=AppTest&arrange=A&listYN=Y&eventStartDate=${eventStartDate}&areaCode=${areaCode}&_type=json`, {
+                    method : 'GET',
+                    credentials: 'omit' // 쿠키를 요청에 포함하지 않음
+                });
                 let data = await response.json();
-                // console.log(data);
                 let boardList = data.response.body.items.item;
 
                 for (board of boardList) {
@@ -210,22 +253,26 @@
             }
         }
 
-        function makeBox(board) {
+
+        function makeBox(board, startDate, endDate) {
             // 주소 뽑아내기
             let parts = board.addr1.split(" ");
             let result = parts.slice(0, 2).join(" ");
 
             return `<div class="bottom" id="board-${board.contentid}">
                     <div class="bottom__img">
-                        <img src=${board.firstimage}>
+                        <img src="${board.firstimage}">
                     </div>
                     <div class="bottom__info">
                         <div class="bottom__info1">${board.title}</div>
-                        <div class="bottom__info2">${board.eventstartdate} - ${board.eventenddate}</div>
+                        ${startDate && endDate
+                        ? `<div class="bottom__info2">${startDate} - ${endDate}</div>`
+                        : `<div class="bottom__info2">${board.eventstartdate} - ${board.eventenddate}</div>`}
                         <div class="bottom__info3">${result}</div>
                     </div>
                 </div>`;
         }
+
 
 
     </script>
