@@ -70,9 +70,10 @@ public class FestivalInfo {
     @JsonAlias("smallimageurl")
     private String smallImageUrl;
     private String cpyrhtDivCd;
+    private String title;
 
     @Builder
-    public FestivalInfo(String contentId, String contenttypeid, String sponsor1, String sponsor1Tel, String sponsor2, String sponsor2Tel, String eventenddate, String playTime, String eventplace, String eventHomePage, String ageLimit, String bookingPlace, String placeInfo, String subEvent, String program, String eventStartDate, String useTimeFestival, String discountInfoFestival, String spendTimeFestival, String festivalGrade, String serialNum, String infoName, String fldgubun, String originImgUrl, String imgName, String smallImageUrl, String cpyrhtDivCd) {
+    public FestivalInfo(String contentId, String contenttypeid, String sponsor1, String sponsor1Tel, String sponsor2, String sponsor2Tel, String eventenddate, String playTime, String eventplace, String eventHomePage, String ageLimit, String bookingPlace, String placeInfo, String subEvent, String program, String eventStartDate, String useTimeFestival, String discountInfoFestival, String spendTimeFestival, String festivalGrade, String serialNum, String infoName, String fldgubun, String originImgUrl, String imgName, String smallImageUrl, String cpyrhtDivCd, String title) {
         this.contentId = contentId;
         this.contenttypeid = contenttypeid;
         this.sponsor1 = sponsor1;
@@ -100,5 +101,6 @@ public class FestivalInfo {
         this.imgName = imgName;
         this.smallImageUrl = smallImageUrl;
         this.cpyrhtDivCd = cpyrhtDivCd;
+        this.title = title;
     }
 }

@@ -16,7 +16,7 @@ public class FestivalInfoRepository {
 
     public List<FestivalInfoResponse.FestivalMainDTO> findAll() {
         String sql = """
-                SELECT content_id, contenttypeid, event_start_date, eventenddate, eventplace, origin_img_url FROM festivalinfo_tb;
+                SELECT content_id, contenttypeid, event_start_date, eventenddate, eventplace, origin_img_url, title FROM festivalinfo_tb;
                 """;
         Query query = em.createNativeQuery(sql);
 
@@ -25,9 +25,6 @@ public class FestivalInfoRepository {
 
         return festivalInfoList;
 
-//       Query query = em.createQuery("select fb from FestivalInfo fb order by fb.id desc", FestivalInfo.class);
-//        List<FestivalInfo> festivalInfoList = query.getResultList();
-//        return festivalInfoList;
     }
 
 }
