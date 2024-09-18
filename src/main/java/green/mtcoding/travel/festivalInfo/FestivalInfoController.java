@@ -32,7 +32,8 @@ public class FestivalInfoController {
     @GetMapping("/festival/main")
     public String festival(HttpServletRequest request) {
         List<FestivalInfoResponse.FestivalMainDTO> festivalInfoList = festivalInfoService.목록보기();
-        request.setAttribute("model", festivalInfoList);
+        request.setAttribute("models", festivalInfoList);
+
         return "/festival/festival";
     }
     /*           festival-end             */

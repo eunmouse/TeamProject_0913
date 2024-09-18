@@ -73,40 +73,24 @@
 
                     <!-- Indicators/dots -->
                     <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-                        <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-                        <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+                        {{#models}}
+                            <button type="button" data-bs-target="#demo" data-bs-slide-to="{{index}}" class="{{#active}}active{{/active}}"></button>
+                        {{/models}}
                     </div>
 
                     <!-- The slideshow/carousel -->
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="${img1}" alt="동해 무릉제" class="d-block"
-                                style="width:100%; height:600px;">
-                            <div class="carousel-caption">
-                                <h5>${축제이름}</h5>
-                                    <p>${기간}</p>
-                                    <p>${지역}</p>
+                        {{#models}}
+                            <div class="carousel-item {{#active}}active{{/active}}">
+                                <img src="{{originImgUrl}}" alt="{{contentId}}" class="d-block"
+                                    style="width:100%; height:600px;">
+                                <div class="carousel-caption">
+                                    <h5>${축제이름}</h5>
+                                    <p>{{eventStartDate}} - {{eventenddate}}</p>
+                                    <p>{{eventplace}}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="${img2}" alt="코리아 튜닝카 페스티벌" class="d-block"
-                                style="width:100%; height:600px;">
-                            <div class="carousel-caption">
-                                <h5>${축제이름}</h5>
-                                    <p>${기간}</p>
-                                    <p>${지역}</p>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="${img3}" alt="수원재즈페스티벌" class="d-block"
-                                style="width:100%; height:600px;">
-                            <div class="carousel-caption">
-                                <h5>${축제이름}</h5>
-                                    <p>${기간}</p>
-                                    <p>${지역}</p>
-                            </div>
-                        </div>
+                        {{/models}}
                     </div>
 
                     <!-- Left and right controls/icons -->

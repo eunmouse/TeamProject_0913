@@ -22,6 +22,7 @@ public class FestivalInfoRepository {
 
         JpaResultMapper mapper = new JpaResultMapper();
         List<FestivalInfoResponse.FestivalMainDTO> festivalInfoList = mapper.list(query, FestivalInfoResponse.FestivalMainDTO.class);
+
         return festivalInfoList;
 
 //       Query query = em.createQuery("select fb from FestivalInfo fb order by fb.id desc", FestivalInfo.class);
