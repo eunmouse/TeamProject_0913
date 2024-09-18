@@ -1,9 +1,12 @@
 package green.mtcoding.travel.festivalInfo;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,11 +29,14 @@ public class FestivalInfoController {
     /*           festival-start             */
     // 쿼리스트링 전달
     // http://localhost:8080/festival/main?
-//    @GetMapping("/festival/main")
-//    public String festival() {
-//
-//        return "/festival/festival";
-//    }
+    @GetMapping("/festival/main")
+    public String festival(HttpServletRequest request) {
+        List<FestivalInfo> festivalInfoList = festivalInfoService.목록보기();
+        request.setAttribute("models", festivalInfoList);
+        System.out.println("뭐 나옴?");
+        System.out.println(festivalInfoList);
+        return "/festival/festival";
+    }
     /*           festival-end             */
 
     /*           info-start             */
