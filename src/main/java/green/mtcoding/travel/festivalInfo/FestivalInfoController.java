@@ -31,10 +31,8 @@ public class FestivalInfoController {
     // http://localhost:8080/festival/main?
     @GetMapping("/festival/main")
     public String festival(HttpServletRequest request) {
-        List<FestivalInfo> festivalInfoList = festivalInfoService.목록보기();
-        request.setAttribute("models", festivalInfoList);
-        System.out.println("뭐 나옴?");
-        System.out.println(festivalInfoList);
+        List<FestivalInfoResponse.FestivalMainDTO> festivalInfoList = festivalInfoService.목록보기();
+        request.setAttribute("model", festivalInfoList);
         return "/festival/festival";
     }
     /*           festival-end             */

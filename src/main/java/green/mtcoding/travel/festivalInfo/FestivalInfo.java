@@ -4,10 +4,13 @@ package green.mtcoding.travel.festivalInfo;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import green.mtcoding.travel.review.Review;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@NoArgsConstructor
 @Entity
 @Data
 @Table(name="festivalinfo_tb")
@@ -68,4 +71,34 @@ public class FestivalInfo {
     private String smallImageUrl;
     private String cpyrhtDivCd;
 
+    @Builder
+    public FestivalInfo(String contentId, String contenttypeid, String sponsor1, String sponsor1Tel, String sponsor2, String sponsor2Tel, String eventenddate, String playTime, String eventplace, String eventHomePage, String ageLimit, String bookingPlace, String placeInfo, String subEvent, String program, String eventStartDate, String useTimeFestival, String discountInfoFestival, String spendTimeFestival, String festivalGrade, String serialNum, String infoName, String fldgubun, String originImgUrl, String imgName, String smallImageUrl, String cpyrhtDivCd) {
+        this.contentId = contentId;
+        this.contenttypeid = contenttypeid;
+        this.sponsor1 = sponsor1;
+        this.sponsor1Tel = sponsor1Tel;
+        this.sponsor2 = sponsor2;
+        this.sponsor2Tel = sponsor2Tel;
+        this.eventenddate = eventenddate;
+        this.playTime = playTime;
+        this.eventplace = eventplace;
+        this.eventHomePage = eventHomePage;
+        this.ageLimit = ageLimit;
+        this.bookingPlace = bookingPlace;
+        this.placeInfo = placeInfo;
+        this.subEvent = subEvent;
+        this.program = program;
+        this.eventStartDate = eventStartDate;
+        this.useTimeFestival = useTimeFestival;
+        this.discountInfoFestival = discountInfoFestival;
+        this.spendTimeFestival = spendTimeFestival;
+        this.festivalGrade = festivalGrade;
+        this.serialNum = serialNum;
+        this.infoName = infoName;
+        this.fldgubun = fldgubun;
+        this.originImgUrl = originImgUrl;
+        this.imgName = imgName;
+        this.smallImageUrl = smallImageUrl;
+        this.cpyrhtDivCd = cpyrhtDivCd;
+    }
 }

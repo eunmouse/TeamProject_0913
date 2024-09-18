@@ -3,6 +3,7 @@ package green.mtcoding.travel.festivalInfo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
+import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,10 +14,19 @@ public class FestivalInfoRepository {
 
     private final EntityManager em;
 
-    public List<FestivalInfo> findAll() {
-       Query query = em.createQuery("select fb from FestivalInfo fb order by fb.id desc", FestivalInfo.class);
-        List<FestivalInfo> festivalInfoList = query.getResultList();
+    public List<FestivalInfoResponse.FestivalMainDTO> findAll() {
+        String sql = """
+                SELECT content_id, contenttypeid, event_start_date, eventenddate, eventplace, origin_img_url FROM festivalinfo_tb;
+                """;
+        Query query = em.createNativeQuery(sql);
+
+        JpaResultMapper mapper = new JpaResultMapper();
+        List<FestivalInfoResponse.FestivalMainDTO> festivalInfoList = mapper.list(query, FestivalInfoResponse.FestivalMainDTO.class);
         return festivalInfoList;
+
+//       Query query = em.createQuery("select fb from FestivalInfo fb order by fb.id desc", FestivalInfo.class);
+//        List<FestivalInfo> festivalInfoList = query.getResultList();
+//        return festivalInfoList;
     }
 
 }
