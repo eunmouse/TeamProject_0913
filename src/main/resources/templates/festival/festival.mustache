@@ -104,7 +104,45 @@
             </section>
             <section>
                 <div id="bottom__box">
-
+                    <div class="bottom" id="board-${board.contentid}">
+                        <div class="bottom__img">
+                            <img src="${board.firstimage}" alt="이미지 로드 실패" onerror="handleImageError(this);">
+                            <div class="ongoing">개최중</div>
+                        </div>
+                        <div class="bottom__info">
+                            <div class="bottom__info1">${board.title}</div>
+                            ${startDate && endDate
+                            ? `<div class="bottom__info2">${startDate} - ${endDate}</div>`
+                            : `<div class="bottom__info2">${board.eventstartdate} - ${board.eventenddate}</div>`}
+                            <div class="bottom__info3">${result}</div>
+                        </div>
+                    </div>
+                    <div class="bottom" id="board-${board.contentid}">
+                        <div class="bottom__img">
+                            <img src="${board.firstimage}" alt="이미지 로드 실패" onerror="handleImageError(this);">
+                            <div class="ongoing">개최중</div>
+                        </div>
+                        <div class="bottom__info">
+                            <div class="bottom__info1">${board.title}</div>
+                            ${startDate && endDate
+                            ? `<div class="bottom__info2">${startDate} - ${endDate}</div>`
+                            : `<div class="bottom__info2">${board.eventstartdate} - ${board.eventenddate}</div>`}
+                            <div class="bottom__info3">${result}</div>
+                        </div>
+                    </div>
+                    <div class="bottom" id="board-${board.contentid}">
+                        <div class="bottom__img">
+                            <img src="${board.firstimage}" alt="이미지 로드 실패" onerror="handleImageError(this);">
+                            <div class="ongoing">개최중</div>
+                        </div>
+                        <div class="bottom__info">
+                            <div class="bottom__info1">${board.title}</div>
+                            ${startDate && endDate
+                            ? `<div class="bottom__info2">${startDate} - ${endDate}</div>`
+                            : `<div class="bottom__info2">${board.eventstartdate} - ${board.eventenddate}</div>`}
+                            <div class="bottom__info3">${result}</div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
