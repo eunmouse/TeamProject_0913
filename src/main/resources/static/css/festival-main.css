@@ -1,4 +1,4 @@
-.festival__main__header__container {
+.festival__container {
     margin-top: 100px;
     padding: 10px 150px 50px 150px;
     background: rgba(255, 255, 255, 0.2);
@@ -29,24 +29,26 @@ nav {
 }
 
 #bottom__box {
-    margin-top: 50px;
     /*grid 는 부모에게 적용*/
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     /*몇 개씩 걸건지*/
     grid-gap: 20px;
-    padding-left: 200px;
-    padding-right: 200px;
+    max-width: 1000px;
+    width: 100%;
+    margin: auto /*가운데 정렬*/
 }
 
 .bottom {
     cursor: pointer;
+    max-width: 300px;
+    max-height: 350px;
 }
 
 .bottom__img {
     position: relative;
     /* 이미지 고정 높이*/
-    height: 300px;
+    height: 212px;
 }
 
 .bottom__img img {
@@ -136,6 +138,7 @@ nav {
 /* 이미지슬라이드 스타일 */
 #demo {
     font-family: "Noto Sans KR", sans-serif;
+    margin-bottom: 50px;
 }
 
 .carousel {
