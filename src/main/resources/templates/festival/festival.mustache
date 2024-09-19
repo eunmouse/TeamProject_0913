@@ -102,15 +102,11 @@
                     </button>
                 </div>
             </section>
-        </div>
-    </section>
-    <main>
-        <div class="festival__main__main__container">
             <div id="bottom__box">
+
             </div>
         </div>
-    </main>
-    </div>
+    </section>
 
     <script>
 
@@ -216,10 +212,10 @@
             let result = parts.slice(0, 2).join(" ");
 
             return `<div class="bottom" id="board-${board.contentid}">
-                    <div class="bottom__img">
-                        <img src="${board.firstimage}">
-                        <div class="ongoing">개최중</div>
-                    </div>
+                        <div class="bottom__img">
+                            <img src="${board.firstimage}" alt="이미지 로드 실패" onerror="handleImageError(this);">
+                            <div class="ongoing">개최중</div>
+                        </div>
                     <div class="bottom__info">
                         <div class="bottom__info1">${board.title}</div>
                         ${startDate && endDate
@@ -228,6 +224,13 @@
                         <div class="bottom__info3">${result}</div>
                     </div>
                 </div>`;
+        }
+
+        function handleImageError(imgElement) {
+            // 이미 대체 이미지로 바뀌었는지 확인하는 조건
+            if (!imgElement.src.includes('no-image.png')) {
+                imgElement.src = '/images/no-image.png';
+            }
         }
 
 

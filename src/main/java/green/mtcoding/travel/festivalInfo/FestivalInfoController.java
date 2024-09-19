@@ -36,6 +36,11 @@ public class FestivalInfoController {
 
         return "/festival/festival";
     }
+
+    @GetMapping("/festival/{contentid}")
+    public String festivalDetail() {
+        return "";
+    }
     /*           festival-end             */
 
     /*           info-start             */

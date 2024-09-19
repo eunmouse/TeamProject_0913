@@ -7,18 +7,7 @@
     /* 블러 효과 */
     -webkit-backdrop-filter: blur(10px);
     /*폰트*/
-    font-family: "Noto Sans KR", sans-serif
-}
-
-.festival__main__main__container {
-    padding: 10px 150px 150px 150px;
-    background: rgba(255, 255, 255, 0.2);
-    /* 밝은 하늘색에 어울리는 반투명 흰색 */
-    backdrop-filter: blur(10px);
-    /* 블러 효과 */
-    -webkit-backdrop-filter: blur(10px);
-    /*폰트*/
-    font-family: "Noto Sans KR", sans-serif
+    font-family: "Noto Sans KR", sans-serif;
 }
 
 nav {
@@ -40,13 +29,14 @@ nav {
 }
 
 #bottom__box {
+    margin-top: 50px;
     /*grid 는 부모에게 적용*/
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     /*몇 개씩 걸건지*/
     grid-gap: 20px;
-    padding-left: 80px;
-    padding-right: 80px;
+    padding-left: 200px;
+    padding-right: 200px;
 }
 
 .bottom {
@@ -55,10 +45,8 @@ nav {
 
 .bottom__img {
     position: relative;
-    /* 이미지 고정 너비*/
-    width: 297px;
     /* 이미지 고정 높이*/
-    height: 212px;
+    height: 300px;
 }
 
 .bottom__img img {
@@ -159,6 +147,7 @@ nav {
 .carousel-inner img {
     width: 100%; /* 이미지 너비를 컨테이너에 맞춤 */
     height: auto; /* 이미지 높이 자동 조절 */
+    cursor: pointer;
 }
 
 .carousel-caption {
