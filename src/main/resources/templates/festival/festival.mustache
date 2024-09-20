@@ -251,7 +251,7 @@
             let parts = board.addr1.split(" ");
             let result = parts.slice(0, 2).join(" ");
 
-            return `<div class="bottom" id="board-${board.contentid}">
+            return `<div class="bottom" id="board-${board.contentid}" onclick="location.href='/festival/detail/${board.contentid}'">
                         <div class="bottom__img">
                             <img src="${board.firstimage}" alt="이미지 로드 실패" onerror="handleImageError(this);">
                             <div class="ongoing">개최중</div>
@@ -272,7 +272,6 @@
                 imgElement.src = '/images/no-image.png';
             }
         }
-
 
 
     </script>

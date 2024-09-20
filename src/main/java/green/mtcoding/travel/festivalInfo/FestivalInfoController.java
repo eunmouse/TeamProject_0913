@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -27,19 +28,18 @@ public class FestivalInfoController {
     /*           hotPlace-end             */
 
     /*           festival-start             */
-    // 쿼리스트링 전달
-    // http://localhost:8080/festival/main?
     @GetMapping("/festival/main")
     public String festival(HttpServletRequest request) {
         List<FestivalInfoResponse.FestivalMainDTO> festivalInfoList = festivalInfoService.목록보기();
         request.setAttribute("models", festivalInfoList);
-
         return "/festival/festival";
     }
 
-    @GetMapping("/festival/{contentid}")
-    public String festivalDetail() {
-        return "";
+    @GetMapping("/festival/detail/{contentId}")
+    public String festivalDetail(@PathVariable("contentId") String contentId, HttpServletRequest request) {
+        request.setAttribute("festivalContentId", contentId);
+
+        return "/festival/festival-detail";
     }
     /*           festival-end             */
 
